@@ -9,6 +9,14 @@ Mostly, just very minor changes to fix API changes from networkx 1.0 to 2.0. Cha
 AttributeError: module 'networkx' has no attribute 'connected_component_subgraphs'
 ```
 
+All tests in testsCases seem to be running OK execpt for `example_09.yaml` which is failing:
+```
+arrangement.py", line 513, in get_extents
+    return matplotlib.transforms.BboxBase.union(bboxes)
+...
+
+ValueError: 'bboxes' cannot be empty
+```
 
 How to run!
 ```

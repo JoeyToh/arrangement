@@ -574,7 +574,7 @@ class Decomposition:
         assert self.superFace and other.superFace
 
         if self.does_overlap(other) and not(self.does_intersect(other)):
-            sampleNodeIdx = other.graph.nodes()[0]
+            sampleNodeIdx = list(other.graph.nodes())[0]
             samplePoint = other.graph.node[sampleNodeIdx]['obj'].point
             fIdx = self.find_face ( samplePoint )
             if fIdx != None:
@@ -1029,7 +1029,7 @@ class Arrangement:
 
             # sd1 or sd2 could be empty; faces =[] and superFace=None
             if len(sd1.faces)>0 and len(sd2.faces)>0 and sd1.does_enclose(sd2):
-                sampleNodeIdx = sd2.graph.nodes()[0]
+                sampleNodeIdx = list(sd2.graph.nodes())[0]
                 samplePoint = sd2.graph.node[sampleNodeIdx]['obj'].point
                 fIdx = sd1.find_face ( samplePoint )
                 subDecompositions[idx1].faces[fIdx].punch_hole ( sd2.superFace )
