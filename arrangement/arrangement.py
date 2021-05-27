@@ -746,7 +746,7 @@ class Arrangement:
         # it will be missed through adding edge process.
         all_nodes_idx = [ [ idx, {} ] for idx in self.graph.nodes() ]
         prime.add_nodes_from( all_nodes_idx )
-        all_halfedges_idx = [halfEdgeIdx for halfEdgeIdx in self.graph.edges(keys=True)]
+        all_halfedges_idx = [halfEdgeIdx for halfEdgeIdx in list(self.graph.edges(keys=True))]
         while len(all_halfedges_idx) != 0:
             (s,e,k) = all_halfedges_idx[-1]
             (ts,te,tk) = self.graph[s][e][k]['obj'].twinIdx
@@ -1300,8 +1300,8 @@ class Arrangement:
         traitIpsTVal = [[] for i in range(len(self.traits))]
 
         for nodeIdx in self.graph.nodes():
-            for (tVal,cIdx) in zip(self.graph.node[nodeIdx]['obj']._traitTval,
-                                   self.graph.node[nodeIdx]['obj']._traitIdx) :
+            for (tVal,cIdx) in zip(self.graph.nodes[nodeIdx]['obj']._traitTval,
+                                   self.graph.nodes[nodeIdx]['obj']._traitIdx) :
                 traitIpsIdx[cIdx].append(nodeIdx)
                 traitIpsTVal[cIdx].append(tVal)
 
@@ -1399,7 +1399,7 @@ class Arrangement:
 
         or call directly arrangement.graph.edges(keys=True)
         '''
-        return self.graph.edges(keys=True)
+        return list(self.graph.edges(keys=True))
 
 
     def _find_successor_HalfEdge(self, halfEdgeIdx,
@@ -1412,7 +1412,7 @@ class Arrangement:
         # and it is important not to reject it from the candidates
         # otherwise the loop for find the face will never terminate!
         if allHalfEdgeIdx == None:
-            allHalfEdgeIdx = self.graph.edges(keys=True) # self.get_all_HalfEdge_indices(self.graph) here here
+            allHalfEdgeIdx = list(self.graph.edges(keys=True)) # self.get_all_HalfEdge_indices(self.graph) here here
 
         (start, end, k) = halfEdgeIdx
 
@@ -1502,7 +1502,7 @@ class Arrangement:
         # to a seperate method that caches all the successors in advance.
 
         faces = []
-        allHalfEdgeIdx = graph.edges(keys=True)
+        allHalfEdgeIdx = list(graph.edges(keys=True))
 
         openList = [ 1 for heIdx in allHalfEdgeIdx]
         # note that the index to "openList" is equivalent to "allHalfEdgeIdx"

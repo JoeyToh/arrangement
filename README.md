@@ -1,6 +1,32 @@
 Arrangement
 ===========
 
+### This branch attempts to update the old dependencies for this repo
+
+Mostly, just very minor changes to fix API changes from networkx 1.0 to 2.0. Changes uses networkx==2.0. Changes will not work with networkx==2.4 and above because of the following error:
+
+```
+AttributeError: module 'networkx' has no attribute 'connected_component_subgraphs'
+```
+
+
+How to run!
+```
+# Lets create a virtual env named env 
+python3 -m venv venv
+
+# Activate the venv
+source venv/bin/activate
+
+#Now install dependencies
+pip3 install -r requirements.txt
+
+#Run and test
+python3 demo.py --file_name 'tests/testCases/example_01.yaml' --multiprocessing 4
+
+```
+
+
 A python package for 2D arrangement.
 <p align="center">
 	<img src="https://github.com/saeedghsh/arrangement/blob/master/docs/animation.gif" width="250">
