@@ -873,7 +873,7 @@ class Arrangement:
         Parameter
         ---------
         loose_degree:
-        any node with adegree less than or equal to this parameter will be removed
+        any node with a degree less than or equal to this parameter will be removed
         loose_degree=0 -> only disconnectend nodes
         loose_degree=2 -> disconnected nodes, or nodes at the end of a branch
         loose_degree=-1 -> no node is considered loose
@@ -891,29 +891,25 @@ class Arrangement:
 
         # to reject duplication
         nodes_idx = list(set(nodes_idx))
-
         # Removes the nodes and all adjacent edges.
         # If a node in the container is not in the graph it is silently ignored.
         self.graph.remove_nodes_from( nodes_idx )
 
         # clean_loose_nodes
         nodes_degree = self.graph.degree()
-        loose_nodes = [k
-                       for k in nodes_degree.keys()
-                       if nodes_degree[k] <= loose_degree ]
+        loose_nodes = [ node for (node, deg) in nodes_degree()
+                        if deg <= loose_degree ]
 
         # the reason for the while-loop
-        # if ther exist a branch with few nodes on it, removing one "node at the end"
+        # if there exist a branch with few nodes on it, removing one "node at the end"
         # would make the next node in the branch the "node at the end"
-        # I can't find braches and remove them all together instead of this while loop
+        # I can't find branches and remove them all together instead of this while loop
         # this is because nodes on a branch are connected by a pairs of halfedges
         while len(loose_nodes)>0:
             self.graph.remove_nodes_from( loose_nodes )
-
             nodes_degree = self.graph.degree()
-            loose_nodes = [k
-                           for k in nodes_degree.keys()
-                           if nodes_degree[k] <= loose_degree ]
+            loose_nodes = [ node for (node, deg) in nodes_degree()
+                            if deg <= loose_degree ]
 
         # recompute the decomposition
         self._decompose()
